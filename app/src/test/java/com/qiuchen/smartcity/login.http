@@ -1,0 +1,271 @@
+### 登录用户
+POST {{host}}/prod-api/api/login
+Content-Type: application/json
+
+{
+  "username": "David",
+  "password": "123456"
+}
+
+> {%
+    client.global.set("auth_token", response.body['token']);
+%}
+
+### 获取图片
+GET {{host}}/010-h-1.jpg
+
+### 注册用户
+POST {{host}}/prod-api/api/register
+Content-Type: application/json
+
+{
+  "avatar": "/010-h-1.jpg",
+  "userName": "David",
+  "nickName": "大卫",
+  "password": "123456",
+  "phonenumber": "15840669812",
+  "sex": "0",
+  "email": "David@163.com",
+  "idCard": "210113199808242137"
+}
+
+### 测试jwt值
+GET {{host}}/prod-api/hello
+Authorization: Bearer {{auth_token}}
+
+### 获取用户基本信息
+GET {{host}}/prod-api/api/common/user/getInfo
+Authorization: Bearer {{auth_token}}
+
+### 修改个人信息
+PUT {{host}}/prod-api/api/common/user
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "email": "lixl@163.com",
+  "idCard": "210882199807251656",
+  "nickName": "大卫王",
+  "phonenumber": "15898125461",
+  "sex": "0"
+}
+
+### 重置密码
+PUT {{host}}/prod-api/api/common/user/resetPwd
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "newPassword": "123456",
+  "oldPassword": "123456"
+}
+
+### 金额变动记录
+GET {{host}}/prod-api/api/common/balance/list?pageNum=1&pageSize=8
+Authorization: Bearer {{auth_token}}
+
+### 充值余额
+POST {{host}}/prod-api/api/common/balance/recharge?money=1
+Authorization: Bearer {{auth_token}}
+
+### 社区反馈意见
+POST {{host}}/prod-api/api/common/feedback
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "content": "反馈内容",
+  "title": "发现错误"
+}
+
+### 查询意见反馈列表
+GET {{host}}/prod-api/api/common/feedback/list?title=
+Authorization: Bearer {{auth_token}}
+
+> {%
+    let obj = response.body["rows"]
+    client.global.set("id", obj.length > 0 ? obj[0]["id"] : obj["id"])
+%}
+
+### 获取反馈意见详情
+GET {{host}}/prod-api/api/common/feedback/{{id}}
+Authorization: Bearer {{auth_token}}
+
+### 获取所有新闻类别
+GET {{host}}/prod-api/press/category/list
+
+> {%
+    client.global.set("test_id", response.body["rows"][0]["id"])
+%}
+
+### 获取对应类别的新闻
+GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=&top=&type={{test_id}}
+
+> {%
+    client.global.set("test_new_id", response.body["rows"][0]["id"])
+%}
+
+### 获取新闻详细信息
+GET {{host}}/prod-api/press/press/{{test_new_id}}
+
+### 发表新闻评论
+POST {{host}}/prod-api/press/pressComment
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "newsId": {{test_new_id}},
+  "content": "新闻评论测试"
+}
+
+### 获取新闻评论列表
+GET {{host}}/prod-api/press/comments/list?commentDate=&userId=&newsId={{test_new_id}}
+
+> {%
+    client.global.set("commentId", response.body["rows"][0]["id"])
+%}
+
+### 获取评论详细信息
+GET {{host}}/prod-api/press/comments/{{commentId}}
+
+### 点赞新闻
+PUT {{host}}/prod-api/press/press/like/{{test_new_id}}
+Authorization: Bearer {{auth_token}}
+
+### 点赞评论
+PUT {{host}}/prod-api/press/pressComment/like/{{commentId}}
+Authorization: Bearer {{auth_token}}
+
+### 获取首页广告轮播 - 广告类型 1 引导页轮播 2 主页轮播
+GET {{host}}/prod-api/api/rotation/list?pageNum=1&pageSize=5&type=1
+
+
+### 文件上传
+POST {{host}}/prod-api/common/upload
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+Content-Type: text/plain
+
+测试文件上传介绍
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+
+< /Users/qiuchenly/Downloads/古戸絵梨花/2020-un-19.jpg
+--WebAppBoundary--
+
+> {%
+    client.global.set("upload_img", response.body["file"])
+%}
+
+### 上传的文件读取 需要授权才可以读取
+GET {{host}}{{upload_img}}
+Authorization: Bearer {{auth_token}}
+
+### 市民诉求分类获取
+GET {{host}}/prod-api/api/gov-service-hotline/appeal-category/list?pageNum=1&pageSize=10
+
+> {%
+    client.global.set("appeal_type", response.body["rows"][0]["id"])
+%}
+
+### 诉求轮播图
+GET {{host}}/prod-api/api/gov-service-hotline/ad-banner/list
+
+### 提交我的诉求
+POST {{host}}/prod-api/api/gov-service-hotline/appeal
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "appealCategoryId": {{appeal_type}},
+  "title": "测试诉求 001",
+  "content": "诉求内容诉求内容诉求内容诉求内容诉求内容",
+  "undertaker": "大连市政府",
+  "imgUrl": "{{upload_img}}"
+}
+
+### 获取我的所有诉求列表 方便警察上门精准扶贫
+GET {{host}}/prod-api/api/gov-service-hotline/appeal/my-list?pageNum=1&pageSize=10
+Authorization: Bearer {{auth_token}}
+
+> {%
+    client.global.set("appeal_id", response.body["rows"][0]["id"])
+%}
+
+### 获取诉求详情
+GET {{host}}/prod-api/api/gov-service-hotline/appeal/{{appeal_id}}
+
+### 获取某分类下的所有诉求
+GET {{host}}/prod-api/api/gov-service-hotline/appeal/list?appealCategoryId={{appeal_type}}&pageNum=1&pageSize=10
+
+### 查询站点信息
+GET {{host}}/prod-api/api/bus/stop/list?linesId=1&pageNum=1&pageSize=8
+
+### 查询路线信息
+GET {{host}}/prod-api/api/bus/line/list?pageNum=1&pageSize=8
+
+> {%
+    client.global.set("line_detail", response.body["rows"][0]['id'])
+%}
+
+### 查询路线详情
+GET {{host}}/prod-api/api/bus/line/{{line_detail}}
+
+### 新增巴士订单
+POST {{host}}/prod-api/api/bus/order
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "start": "泰德大厦",
+  "end": "大连北站",
+  "price": "8",
+  "path": "一号线",
+  "status": 1
+}
+
+> {%
+    client.global.set("orderNum", response.body["orderNum"])
+%}
+
+### 查询订单列表
+GET {{host}}/prod-api/api/bus/order/list?pageNum=1&pageSize=8
+Authorization: Bearer {{auth_token}}
+
+### 支付巴士订单
+POST {{host}}/prod-api/api/bus/pay
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "orderNum": "{{orderNum}}",
+  "paymentType": "电子支付"
+}
+
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+###
+
+
+
+
+
+

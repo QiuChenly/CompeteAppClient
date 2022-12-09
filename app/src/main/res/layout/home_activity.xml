@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+            app:title="主页"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+                app:cardElevation="8dp"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:scaleType="centerCrop"
+                        android:id="@+id/user_logo"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+
+                        android:layout_marginStart="10dp"
+                        >
+
+                    <TextView
+                            android:text="nickname"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"
+                            android:id="@+id/user_nickName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:textSize="11sp"
+                            android:text="余额: 100 | 积分: 100"
+                            android:id="@+id/user_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:text="12312"
+                            android:textSize="11sp"
+                            android:id="@+id/user_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:textSize="11sp"
+                            android:text="12312@qq.com"
+                            android:id="@+id/user_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:id="@+id/searchButton"
+                android:src="@drawable/baseline_search_24"
+                app:backgroundTint="@color/white"
+                android:contentDescription="搜索新闻"/>
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            app:menu="@menu/home_nav"
+            android:layout_height="wrap_content"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
