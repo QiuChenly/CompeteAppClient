@@ -1,13 +1,11 @@
 package com.qiuchen.smartcity.ui.base.imp;
 
+import com.qiuchen.smartcity.bean.BaseResponse;
 import com.qiuchen.smartcity.bean.request.LoginBean;
-import com.qiuchen.smartcity.bean.response.BannerResponse;
-import com.qiuchen.smartcity.bean.response.GetUserInfo;
-import com.qiuchen.smartcity.bean.response.LoginResponse;
+import com.qiuchen.smartcity.bean.request.SubmitNews;
+import com.qiuchen.smartcity.bean.response.*;
 import com.qiuchen.smartcity.ui.base.BasePresenter;
-import com.qiuchen.smartcity.ui.base.view.BannerView;
-import com.qiuchen.smartcity.ui.base.view.LoginView;
-import com.qiuchen.smartcity.ui.base.view.UserInfoView;
+import com.qiuchen.smartcity.ui.base.view.*;
 
 public class PresenterImp extends BasePresenter {
 
@@ -37,6 +35,42 @@ public class PresenterImp extends BasePresenter {
             @Override
             public void GetData(GetUserInfo body) {
                 view.GetInfoSuccess(body.user);
+            }
+        });
+    }
+
+    public void searchNews(String key, SearchView view) {
+        model.searchNews(key, new Calls<GetNewsResponse>(view) {
+            @Override
+            public void GetData(GetNewsResponse body) {
+                view.GetNews(body.rows);
+            }
+        });
+    }
+
+    public void getNewsDetails(int newsId, NewsDetailsView view) {
+        model.getNewsInfo(newsId, new Calls<GetNewsDetails>(view) {
+            @Override
+            public void GetData(GetNewsDetails body) {
+                view.getNew(body.data);
+            }
+        });
+    }
+
+    public void comment(SubmitNews newsId, NewsDetailsView view) {
+        model.submitNewsComment(newsId, new Calls<BaseResponse>(view) {
+            @Override
+            public void GetData(BaseResponse body) {
+                view.commitSuccess();
+            }
+        });
+    }
+
+    public void getComments(int newsId, NewsDetailsView view) {
+        model.getNewsCommits(newsId, new Calls<GetNewsCommentList>(view) {
+            @Override
+            public void GetData(GetNewsCommentList body) {
+                view.getCommitList(body.rows);
             }
         });
     }

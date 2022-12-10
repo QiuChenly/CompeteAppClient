@@ -22,7 +22,8 @@ public abstract class BaseAct extends AppCompatActivity implements BaseView {
         super.onCreate(savedInstanceState);
         UIParams config = getConfig(new UIParams());
         setContentView(config.layout);
-        getSupportActionBar().hide();
+
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
 
         //透明状态栏 需要在布局上设置fitSystemWindow = true
         // | View.SYSTEM_UI_FLAG_LAYOUT_STABLE 状态栏白色字体

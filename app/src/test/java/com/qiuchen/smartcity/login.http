@@ -105,6 +105,15 @@ GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=&top=&type={{test
     client.global.set("test_new_id", response.body["rows"][0]["id"])
 %}
 
+### 根据标题搜索新闻
+GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=100标题&top=&type=
+
+
+
+
+
+
+
 ### 获取新闻详细信息
 GET {{host}}/prod-api/press/press/{{test_new_id}}
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:gravity="center_vertical">
+
+    <ImageView
+            android:src="@color/black"
+            android:scaleType="fitXY"
+            android:id="@+id/item_img"
+            android:layout_width="100dp"
+            android:layout_height="60dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/new_title"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
+                android:textSize="22sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        <TextView
+                android:id="@+id/new_subtitle"
+                android:maxLines="1"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/trd_title"
+                android:textSize="11sp"
+                android:text="2022-01-01 16:39 · 评论: 0 点赞: 0 阅读: 0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

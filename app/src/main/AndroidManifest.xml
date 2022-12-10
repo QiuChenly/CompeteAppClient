@@ -25,7 +25,13 @@
         </activity>
 
         <activity android:name=".ui.act.HomeActivity"/>
-        <activity android:name=".ui.act.SearchActivity"/>
+        <activity
+                android:name=".ui.act.NewsDetails"
+                />
+        <activity
+                android:name=".ui.act.SearchActivity"
+                android:parentActivityName=".ui.act.HomeActivity"
+                />
         <activity
                 android:name=".ui.act.MainActivity"
                 android:exported="true">
