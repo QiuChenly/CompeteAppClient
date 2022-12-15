@@ -51,6 +51,7 @@ public class UserFragment extends BaseFragment implements UserInfoView {
 
     @Override
     public void GetInfoSuccess(GetUserInfo.UserBean user) {
+        if (this.getActivity() == null) return;
         Glide.with(this)
                 .load(Http.baseUrl + user.avatar)
                 .apply(RequestOptions

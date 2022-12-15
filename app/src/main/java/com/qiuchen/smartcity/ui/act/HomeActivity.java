@@ -28,10 +28,10 @@ public class HomeActivity extends BaseAct {
     protected void init(Bundle savedInstanceState) {
         setBlackBar();
 
-        fragment_container = (FrameLayout) findViewById(R.id.fragment_container);
+        fragment_container = findViewById(R.id.fragment_container);
 
-        home_toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        home_nav = (BottomNavigationView) findViewById(R.id.home_nav);
+        home_toolbar = findViewById(R.id.home_toolbar);
+        home_nav = findViewById(R.id.home_nav);
 
         setSupportActionBar(home_toolbar);
 
