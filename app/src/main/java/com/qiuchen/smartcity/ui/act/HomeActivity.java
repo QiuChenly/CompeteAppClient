@@ -9,6 +9,7 @@ import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.ui.base.BaseAct;
 import com.qiuchen.smartcity.ui.base.UIParams;
 import com.qiuchen.smartcity.ui.frag.HomeFragment;
+import com.qiuchen.smartcity.ui.frag.NewsFragment;
 import com.qiuchen.smartcity.ui.frag.SimpleFragment;
 import com.qiuchen.smartcity.ui.frag.UserFragment;
 
@@ -54,7 +55,7 @@ public class HomeActivity extends BaseAct {
                     break;
                 }
                 case R.id.nav_news: {
-                    fragment = new SimpleFragment();
+                    fragment = new NewsFragment();
                     break;
                 }
                 case R.id.nav_center: {

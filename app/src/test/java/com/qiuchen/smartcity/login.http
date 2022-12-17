@@ -105,8 +105,8 @@ GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=&top=&type={{test
     client.global.set("test_new_id", response.body["rows"][0]["id"])
 %}
 
-### 根据标题搜索新闻
-GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=100标题&top=&type=
+### 根据标题搜索新闻 | 指定每页获取的数量 ｜ 指定获取的页码
+GET {{host}}/prod-api/press/press/list?hot=&publishDate=&title=100标题&top=&type=&pageSize=5&pageNum=2
 
 
 

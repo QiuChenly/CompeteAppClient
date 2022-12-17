@@ -8,12 +8,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.qiuchen.smartcity.MyApp;
 import com.qiuchen.smartcity.ui.base.imp.PresenterImp;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseFragment extends Fragment implements BaseView {
 
-    protected PresenterImp mPresenterImp = new PresenterImp();
+    protected PresenterImp mPresenterImp = MyApp.userPresenter;
 
     @Override
     public void msg(String msg) {

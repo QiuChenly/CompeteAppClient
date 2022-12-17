@@ -74,4 +74,31 @@ public class PresenterImp extends BasePresenter {
             }
         });
     }
+
+    public void getBannerNews(int newsSize, NewsView newsFragment) {
+        model.getNewsBanner(newsSize, new Calls<GetNewsResponse>(newsFragment) {
+            @Override
+            public void GetData(GetNewsResponse body) {
+                newsFragment.GetNewsBanner(body.rows);
+            }
+        });
+    }
+
+    public void getNewsCategory(NewsView newsFragment) {
+        model.getNewsCategory(new Calls<GetNewsCategoryList>(newsFragment) {
+            @Override
+            public void GetData(GetNewsCategoryList body) {
+                newsFragment.GetNewsCategory(body.rows);
+            }
+        });
+    }
+
+    public void getNewsByType(String type, NewsView newsView) {
+        model.getNewsByType(20, type, new Calls<GetNewsResponse>(newsView) {
+            @Override
+            public void GetData(GetNewsResponse body) {
+                newsView.GetNewsByTypesList(body.rows);
+            }
+        });
+    }
 }

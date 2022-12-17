@@ -18,7 +18,7 @@ public interface Api {
     Call<GetUserInfo> getUserInfo();
 
     @GET("/prod-api/press/press/list?hot=&publishDate=&top=")
-    Call<GetNewsResponse> getNews(@Query("title") String title, @Query("type") String type);
+    Call<GetNewsResponse> getNews(@Query("title") String title, @Query("type") String type, @Query("pageSize") int pageSize, @Query("pageNum") int pageNum);
 
     @GET("/prod-api/press/press/{newsId}")
     Call<GetNewsDetails> getNewsDetails(@Path("newsId") int newsId);
@@ -28,4 +28,7 @@ public interface Api {
 
     @POST("/prod-api/press/pressComment")
     Call<BaseResponse> submitCommit(@Body SubmitNews news);
+
+    @GET("/prod-api/press/category/list")
+    Call<GetNewsCategoryList> getNewsCategory();
 }

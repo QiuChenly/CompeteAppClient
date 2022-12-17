@@ -23,7 +23,37 @@ public class MainModel extends BaseModel {
     }
 
     public void searchNews(String key, Calls<GetNewsResponse> getNewsResponseCalls) {
-        api.getNews(key, "").enqueue(getNewsResponseCalls);
+        api.getNews(key, "", 10, 1).enqueue(getNewsResponseCalls);
+    }
+
+    /**
+     * 获取新闻的banner 官方其实没有提供接口 我这里用他自己的默认接口获取前五条新闻
+     *
+     * @param size
+     * @param getNewsResponseCalls
+     */
+    public void getNewsBanner(int size, Calls<GetNewsResponse> getNewsResponseCalls) {
+        api.getNews("", "", size, 1).enqueue(getNewsResponseCalls);
+    }
+
+    /**
+     * 根据新闻类别获取新闻
+     *
+     * @param size
+     * @param type
+     * @param getNewsResponseCalls
+     */
+    public void getNewsByType(int size, String type, Calls<GetNewsResponse> getNewsResponseCalls) {
+        api.getNews("", type, size, 1).enqueue(getNewsResponseCalls);
+    }
+
+    /**
+     * 获取新闻所有类别
+     *
+     * @param getNewsResponseCalls
+     */
+    public void getNewsCategory(Calls<GetNewsCategoryList> getNewsResponseCalls) {
+        api.getNewsCategory().enqueue(getNewsResponseCalls);
     }
 
     public void getNewsInfo(int newsId, Calls<GetNewsDetails> getNewsDetailsCalls) {

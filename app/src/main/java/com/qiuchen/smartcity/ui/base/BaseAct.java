@@ -5,10 +5,11 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.qiuchen.smartcity.MyApp;
 import com.qiuchen.smartcity.ui.base.imp.PresenterImp;
 
 public abstract class BaseAct extends AppCompatActivity implements BaseView {
-    protected PresenterImp mPresenterImp = new PresenterImp();
+    protected PresenterImp mPresenterImp = MyApp.userPresenter;
 
     @Override
     public void msg(String msg) {
