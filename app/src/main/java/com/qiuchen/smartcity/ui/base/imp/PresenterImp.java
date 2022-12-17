@@ -79,7 +79,7 @@ public class PresenterImp extends BasePresenter {
         model.getNewsBanner(newsSize, new Calls<GetNewsResponse>(newsFragment) {
             @Override
             public void GetData(GetNewsResponse body) {
-                newsFragment.GetNewsBanner(body.rows);
+                newsFragment.GetNewsBannerData(body.rows);
             }
         });
     }
@@ -88,7 +88,7 @@ public class PresenterImp extends BasePresenter {
         model.getNewsCategory(new Calls<GetNewsCategoryList>(newsFragment) {
             @Override
             public void GetData(GetNewsCategoryList body) {
-                newsFragment.GetNewsCategory(body.rows);
+                newsFragment.GetNewsCategoryData(body.rows);
             }
         });
     }
@@ -97,7 +97,7 @@ public class PresenterImp extends BasePresenter {
         model.getNewsByType(20, type, new Calls<GetNewsResponse>(newsView) {
             @Override
             public void GetData(GetNewsResponse body) {
-                newsView.GetNewsByTypesList(body.rows);
+                newsView.GetNewsByTypesListData(body.rows);
             }
         });
     }

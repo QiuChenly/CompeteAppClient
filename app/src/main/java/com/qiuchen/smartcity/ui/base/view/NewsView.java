@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface NewsView extends BaseView {
 
-    void GetNewsCategory(List<GetNewsCategoryList.RowsBean> rows);
+    void GetNewsCategoryData(List<GetNewsCategoryList.RowsBean> rows);
 
-    void GetNewsBanner(List<GetNewsResponse.RowsBean> rows);
+    void GetNewsBannerData(List<GetNewsResponse.RowsBean> rows);
 
-    void GetNewsByTypesList(List<GetNewsResponse.RowsBean> rows);
+    void GetNewsByTypesListData(List<GetNewsResponse.RowsBean> rows);
 }

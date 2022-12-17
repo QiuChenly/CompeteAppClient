@@ -45,10 +45,12 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        bindView(holder.itemView, lst.get(position));
+        bindView(holder.itemView, lst.get(position), view -> {
+            itemClick.GoDetails(lst.get(position).id);
+        });
     }
 
-    void bindView(View v, GetNewsResponse.RowsBean data) {
+    public static void bindView(View v, GetNewsResponse.RowsBean data, View.OnClickListener clickListener) {
         ImageView im = v.findViewById(R.id.item_img);
         TextView trdView = v.findViewById(R.id.trd_title);
         TextView new_title = v.findViewById(R.id.new_title);
@@ -58,9 +60,7 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
         new_title.setText(data.title);
         new_subtitle.setText(data.subTitle);
 
-        v.setOnClickListener(view -> {
-            itemClick.GoDetails(data.id);
-        });
+        v.setOnClickListener(clickListener);
 
         Glide.with(v)
                 .load(Http.baseUrl + data.cover)
