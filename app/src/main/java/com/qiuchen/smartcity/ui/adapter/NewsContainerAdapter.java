@@ -4,7 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -33,6 +35,13 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
         void SyncTabSelect(TabLayout.Tab tab);
 
         void SyncTabScroll(int scrollX, int scrollY);
+
+        /**
+         * 跳转到新闻详情页
+         *
+         * @param id
+         */
+        void GoNewsDetails(int id);
     }
 
     private OperateListener listener;
@@ -80,8 +89,9 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     void initNewsItem(View v, int position) {
         GetNewsResponse.RowsBean row = newsLst.get(position - preSize);//-position 是去掉header后正确数据所在的位置
+        // 复用函数 反正做的事情都是一样的 就抽取出来
         SearchNewsAdapter.bindView(v, row, view -> {
-
+            listener.GoNewsDetails(row.id);
         });
     }
 
@@ -90,12 +100,15 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setNewsCategory(List<GetNewsCategoryList.RowsBean> types) {
         this.types = types;
-        notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
+        if (this.bannerList != null) //避免重复加载导致白屏的bug 其实这两个item应该拆开来 是我的设计失误
+            notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
     }
 
     public void setNewsBanner(List<GetNewsResponse.RowsBean> banner) {
-        this.bannerList = banner;
-        notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
+        bannerList = banner;
+        bannerAdapter.setDatas(bannerList);
+        if (this.types != null)
+            notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
     }
 
     BannerAdapter<GetNewsResponse.RowsBean, ViewHolder> bannerAdapter;
@@ -105,6 +118,7 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
     void initBanner(View v) {
         Banner banner = v.findViewById(R.id.banner_new);
         mTabLayout = v.findViewById(R.id.tablayout_news_category);
+
 
         banner.setIndicator(new CircleIndicator(v.getContext()));
         if (bannerAdapter == null) {
@@ -118,12 +132,21 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 @Override
                 public void onBindView(ViewHolder viewHolder, GetNewsResponse.RowsBean rowsBean, int i, int i1) {
                     ImageView im = viewHolder.itemView.findViewById(R.id.banner_news_image);
+                    TextView news_title = viewHolder.itemView.findViewById(R.id.news_title);
+
+                    CardView banner_items = viewHolder.itemView.findViewById(R.id.banner_items);
+                    banner_items.setOnClickListener(view -> {
+                        listener.GoNewsDetails(rowsBean.id);
+                    });
+
+                    news_title.setText(rowsBean.title);
                     Glide.with(viewHolder.itemView).load(Http.baseUrl + rowsBean.cover).into(im);
+
                 }
             };
             if (bannerList == null) listener.GetBanners();
         }
-        bannerAdapter.setDatas(bannerList);
+
         if (banner.getAdapter() == null) banner.setAdapter(bannerAdapter);
 
         mTabLayout.clearOnTabSelectedListeners();

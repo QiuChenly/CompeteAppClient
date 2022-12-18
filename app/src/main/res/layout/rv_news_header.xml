@@ -10,6 +10,10 @@
             android:id="@+id/banner_new"
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            app:banner_indicator_gravity="right"
+            app:banner_indicator_marginRight="20dp"
+            app:banner_indicator_normal_color="#3F51B5"
+            app:banner_indicator_selected_color="#F44336"
             app:banner_auto_loop="true"
             app:banner_infinite_loop="true"/>
 
@@ -17,7 +21,7 @@
             android:id="@+id/tablayout_news_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             app:tabIndicatorFullWidth="false"
             app:tabMode="scrollable"
             />

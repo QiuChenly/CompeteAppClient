@@ -3,18 +3,36 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/banner_items"
+        >
 
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/banner_news_image"
-            android:scaleType="centerCrop"
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/banner_news_image"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/news_title"
+                android:layout_gravity="bottom"
+                android:padding="5dp"
+                android:background="#80000000"
+                android:text="测试标题测试标题测试标题测试标题测试标题测试标题测试标题"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

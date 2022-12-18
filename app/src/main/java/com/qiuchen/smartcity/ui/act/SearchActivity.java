@@ -1,6 +1,5 @@
 package com.qiuchen.smartcity.ui.act;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -11,6 +10,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.qiuchen.smartcity.MyApp;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.bean.response.GetNewsResponse;
 import com.qiuchen.smartcity.ui.adapter.SearchNewsAdapter;
@@ -55,9 +55,7 @@ public class SearchActivity extends BaseAct implements SearchView {
         //初始化列表
         search_list.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchNewsAdapter(id -> {
-            startActivity(new Intent(this, NewsDetails.class) {{
-                putExtra("newsId", id);
-            }});
+            MyApp.gotoNewsDetail(this, id);
         });
         search_list.setAdapter(adapter);
 

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.tabs.TabLayout;
+import com.qiuchen.smartcity.MyApp;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.bean.response.GetNewsCategoryList;
 import com.qiuchen.smartcity.bean.response.GetNewsResponse;
@@ -159,5 +160,11 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
     @Override
     public void SyncTabScroll(int scrollX, int scrollY) {
         tablayout_news_category.scrollTo(scrollX, scrollY);
+    }
+
+    @Override
+    public void GoNewsDetails(int id) {
+        if (this.getContext() != null)
+            MyApp.gotoNewsDetail(this.getContext(), id);
     }
 }
