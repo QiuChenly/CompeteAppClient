@@ -28,9 +28,7 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = "NewsContainerAdapter";
 
     public interface OperateListener {
-        void LoadTargetNewsByType(int type);
-
-        void SyncTabSelect(TabLayout.Tab tab);
+        void LoadTargetNewsByType(int type, int selectedTabPosition);
 
         void SyncTabScroll(int scrollX, int scrollY);
 
@@ -129,18 +127,18 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
     BannerAdapter<GetNewsResponse.RowsBean, ViewHolder> bannerAdapter;
 
     TabLayout mTabLayout;
+    TabLayout.OnTabSelectedListener tabListener;
 
     void initTabLayout(TabLayout tabLayout) {
         mTabLayout = tabLayout;
-        mTabLayout.clearOnTabSelectedListeners();
         mTabLayout.setOnScrollChangeListener((v1, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             listener.SyncTabScroll(scrollX, scrollY);
         });
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+        if (tabListener == null) tabListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                listener.LoadTargetNewsByType((tab.getTag() == null) ? -1 : (int) tab.getTag());
-                listener.SyncTabSelect(tab);
+                listener.LoadTargetNewsByType((tab.getTag() == null) ? -1 : (int) tab.getTag(), mTabLayout.getSelectedTabPosition());
             }
 
             @Override
@@ -151,7 +149,8 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-        });
+        };
+        mTabLayout.addOnTabSelectedListener(tabListener);
         if (mTabLayout.getTabCount() == 0 && types != null) {
             //continue load
             for (GetNewsCategoryList.RowsBean row : types) {
@@ -198,8 +197,12 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (banner.getAdapter() == null) banner.setAdapter(bannerAdapter);
     }
 
-    public void syncTabSelect(TabLayout.Tab tab) {
-        mTabLayout.selectTab(tab);
+    public void syncTabSelect(int tab) {
+        if (mTabLayout.getSelectedTabPosition() == tab) return;
+        TabLayout.Tab t = mTabLayout.getTabAt(tab);
+        if (t != null) {
+            t.select();
+        }
     }
 
     public void syncTabScroll(int x, int y) {
@@ -211,7 +214,7 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setLst(List<GetNewsResponse.RowsBean> newsLst) {
         this.newsLst = newsLst;
-        notifyItemRangeChanged(1, newsLst.size());
+        notifyItemRangeChanged(preSize, newsLst.size());//这里预留了两个槽 所以要从 0 1 后面的 2 开始 否则会导致界面重画 bug
     }
 
     public NewsContainerAdapter() {

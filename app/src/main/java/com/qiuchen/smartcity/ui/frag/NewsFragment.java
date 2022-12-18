@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NewsFragment extends BaseFragment implements NewsView, NewsContainerAdapter.OperateListener {
+    private static final String TAG = "NewsFragment";
     RecyclerView rv_container;//是时候表演真正的绝活了
 
     @Override
@@ -38,7 +39,7 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
         tablayout_news_category.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                adapter.syncTabSelect(tab);
+                adapter.syncTabSelect(tablayout_news_category.getSelectedTabPosition());
             }
 
             @Override
@@ -88,7 +89,7 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
                         }
                         Log.d(TAG, String.format("onScrolled Val : %s", top));
                     } else {
-                        tablayout_news_category.setVisibility(View.INVISIBLE);
+                        tablayout_news_category.setVisibility(View.INVISIBLE);//TODOx 测试完毕务必设为INVISIBLE
 //                        tablayout_news_category.setY(0);
                     }
                 } else {
@@ -107,7 +108,6 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
 
         mPresenterImp.getBannerNews(10, this);
         mPresenterImp.getNewsCategory(this);
-        
     }
 
     @Override
@@ -132,13 +132,12 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
     }
 
     @Override
-    public void LoadTargetNewsByType(int type) {
+    public void LoadTargetNewsByType(int type, int selectedTabPosition) {
+        TabLayout.Tab t = tablayout_news_category.getTabAt(selectedTabPosition);
+        if (t != null) {
+            t.select();
+        }
         mPresenterImp.getNewsByType("" + type, this);
-    }
-
-    @Override
-    public void SyncTabSelect(TabLayout.Tab tab) {
-        tablayout_news_category.selectTab(tab);
     }
 
     @Override
