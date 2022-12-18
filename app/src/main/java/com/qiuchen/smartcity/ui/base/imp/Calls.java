@@ -31,7 +31,7 @@ public abstract class Calls<T extends BaseResponse> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable throwable) {
-        if (mView.get() != null) {
+        if (mView.get() != null && !call.isCanceled()) {//如果是主动取消网络请求则不弹信息
             throwable.printStackTrace();
             mView.get().msg("请求网络错误。");
         }

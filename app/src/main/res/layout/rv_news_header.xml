@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<com.google.android.material.tabs.TabLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:id="@+id/tablayout_news_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    <com.youth.banner.Banner
-            android:id="@+id/banner_new"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            app:banner_indicator_gravity="right"
-            app:banner_indicator_marginRight="20dp"
-            app:banner_indicator_normal_color="#3F51B5"
-            app:banner_indicator_selected_color="#F44336"
-            app:banner_auto_loop="true"
-            app:banner_infinite_loop="true"/>
-
-    <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tablayout_news_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="scrollable"
-            />
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:layout_marginBottom="10dp"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable"
+        />

@@ -1,5 +1,6 @@
 package com.qiuchen.smartcity.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +25,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
+    private static final String TAG = "NewsContainerAdapter";
 
     public interface OperateListener {
-        void GetNewsCategory();
-
         void LoadTargetNewsByType(int type);
-
-        void GetBanners();
 
         void SyncTabSelect(TabLayout.Tab tab);
 
@@ -62,7 +60,19 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(viewType == 1 ? R.layout.rv_news_header : R.layout.news_item, parent, false);
+        int layout;
+        switch (viewType) {
+            case 1:
+                layout = R.layout.rv_news_header_banner;
+                break;
+            case 2:
+                layout = R.layout.rv_news_header;
+                break;
+            default:
+                layout = R.layout.news_item;
+                break;
+        }
+        View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new ViewHolder(v);
     }
 
@@ -79,11 +89,17 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        int type = getItemViewType(position);
-        if (type == 1) {// 顶部布局
-            initBanner(holder.itemView);
-        } else {
-            initNewsItem(holder.itemView, position);
+        Log.d(TAG, String.format("onBindViewHolder: 开始绑定控件事件到界面上 Type = %s", getItemViewType(position)));
+        switch (getItemViewType(position)) {
+            case 1://banner布局
+                initBanner((Banner) holder.itemView);
+                break;
+            case 2://菜单导航栏布局
+                initTabLayout((TabLayout) holder.itemView);
+                break;
+            default:
+                initNewsItem(holder.itemView, position);
+                break;
         }
     }
 
@@ -100,55 +116,22 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setNewsCategory(List<GetNewsCategoryList.RowsBean> types) {
         this.types = types;
-        if (this.bannerList != null) //避免重复加载导致白屏的bug 其实这两个item应该拆开来 是我的设计失误
-            notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
+        notifyItemChanged(1);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
     }
 
     public void setNewsBanner(List<GetNewsResponse.RowsBean> banner) {
         bannerList = banner;
         bannerAdapter.setDatas(bannerList);
-        if (this.types != null)
-            notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
+        Log.d(TAG, "setNewsBanner: 增加新的banner = " + bannerList.size());
+        notifyItemChanged(0);//由于第一个项目永远是组合布局 所以直接通知第一个数据即可
     }
 
     BannerAdapter<GetNewsResponse.RowsBean, ViewHolder> bannerAdapter;
 
     TabLayout mTabLayout;
 
-    void initBanner(View v) {
-        Banner banner = v.findViewById(R.id.banner_new);
-        mTabLayout = v.findViewById(R.id.tablayout_news_category);
-
-
-        banner.setIndicator(new CircleIndicator(v.getContext()));
-        if (bannerAdapter == null) {
-            bannerAdapter = new BannerAdapter<GetNewsResponse.RowsBean, ViewHolder>(new LinkedList<>()) {
-
-                @Override
-                public ViewHolder onCreateHolder(ViewGroup viewGroup, int i) {
-                    return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.banner_item_news_banner, viewGroup, false));
-                }
-
-                @Override
-                public void onBindView(ViewHolder viewHolder, GetNewsResponse.RowsBean rowsBean, int i, int i1) {
-                    ImageView im = viewHolder.itemView.findViewById(R.id.banner_news_image);
-                    TextView news_title = viewHolder.itemView.findViewById(R.id.news_title);
-
-                    CardView banner_items = viewHolder.itemView.findViewById(R.id.banner_items);
-                    banner_items.setOnClickListener(view -> {
-                        listener.GoNewsDetails(rowsBean.id);
-                    });
-
-                    news_title.setText(rowsBean.title);
-                    Glide.with(viewHolder.itemView).load(Http.baseUrl + rowsBean.cover).into(im);
-
-                }
-            };
-            if (bannerList == null) listener.GetBanners();
-        }
-
-        if (banner.getAdapter() == null) banner.setAdapter(bannerAdapter);
-
+    void initTabLayout(TabLayout tabLayout) {
+        mTabLayout = tabLayout;
         mTabLayout.clearOnTabSelectedListeners();
         mTabLayout.setOnScrollChangeListener((v1, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             listener.SyncTabScroll(scrollX, scrollY);
@@ -169,19 +152,50 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             }
         });
-        if (types == null) {
-            listener.GetNewsCategory();
-        } else {
-            if (mTabLayout.getTabCount() == 0) {
-                //continue load
-                for (GetNewsCategoryList.RowsBean row : types) {
-                    TabLayout.Tab t = mTabLayout.newTab();
-                    t.setText(row.name);
-                    t.setTag(row.id);
-                    mTabLayout.addTab(t);
-                }
+        if (mTabLayout.getTabCount() == 0 && types != null) {
+            //continue load
+            for (GetNewsCategoryList.RowsBean row : types) {
+                TabLayout.Tab t = mTabLayout.newTab();
+                t.setText(row.name);
+                t.setTag(row.id);
+                mTabLayout.addTab(t);
             }
         }
+    }
+
+    void initBanner(Banner banner) {
+        Log.d(TAG, "initBanner: 开始初始化banner");
+        banner.setIndicator(new CircleIndicator(banner.getContext()));
+        if (bannerAdapter == null) {
+            bannerAdapter = new BannerAdapter<GetNewsResponse.RowsBean, ViewHolder>(new LinkedList<>()) {
+                private static final String TAG = "NewsContainerAdapter";
+
+                @Override
+                public ViewHolder onCreateHolder(ViewGroup viewGroup, int i) {
+                    Log.d(TAG, String.format("onCreateHolder: %s 创建banner对象", i));
+                    View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.banner_item_news_banner, viewGroup, false);
+                    return new ViewHolder(v);
+                }
+
+                @Override
+                public void onBindView(ViewHolder viewHolder, GetNewsResponse.RowsBean rowsBean, int i, int i1) {
+                    Log.d(TAG, String.format("onBindView: 绑定子banner页面 %s", i));
+                    ImageView im = viewHolder.itemView.findViewById(R.id.banner_news_image);
+                    TextView news_title = viewHolder.itemView.findViewById(R.id.news_title);
+
+                    CardView banner_items = viewHolder.itemView.findViewById(R.id.banner_items);
+                    banner_items.setOnClickListener(view -> {
+                        listener.GoNewsDetails(rowsBean.id);
+                    });
+
+                    news_title.setText(rowsBean.title);
+                    Glide.with(viewHolder.itemView)
+                            .load(Http.baseUrl + rowsBean.cover)
+                            .into(im);
+                }
+            };
+        }
+        if (banner.getAdapter() == null) banner.setAdapter(bannerAdapter);
     }
 
     public void syncTabSelect(TabLayout.Tab tab) {
@@ -192,16 +206,12 @@ public class NewsContainerAdapter extends RecyclerView.Adapter<ViewHolder> {
         mTabLayout.scrollTo(x, y);
     }
 
-    private int preSize = 1;//预留顶部布局
+    private final int preSize = 2;//预留顶部布局
     private List<GetNewsResponse.RowsBean> newsLst;
 
     public void setLst(List<GetNewsResponse.RowsBean> newsLst) {
         this.newsLst = newsLst;
         notifyItemRangeChanged(1, newsLst.size());
-    }
-
-    public NewsContainerAdapter(List<GetNewsResponse.RowsBean> newsLst) {
-        this.newsLst = newsLst;
     }
 
     public NewsContainerAdapter() {

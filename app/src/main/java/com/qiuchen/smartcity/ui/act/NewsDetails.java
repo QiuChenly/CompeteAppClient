@@ -1,16 +1,21 @@
 package com.qiuchen.smartcity.ui.act;
 
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.bean.request.SubmitNews;
 import com.qiuchen.smartcity.bean.response.GetNewsCommentList;
@@ -20,11 +25,8 @@ import com.qiuchen.smartcity.ui.base.BaseAct;
 import com.qiuchen.smartcity.ui.base.UIParams;
 import com.qiuchen.smartcity.ui.base.view.NewsDetailsView;
 import com.qiuchen.smartcity.utils.http.Http;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class NewsDetails extends BaseAct implements NewsDetailsView {
@@ -94,28 +96,32 @@ public class NewsDetails extends BaseAct implements NewsDetailsView {
         getSupportActionBar().setTitle(body.title);
         getSupportActionBar().setSubtitle(String.format("阅读 %s · 评论 %s", body.readNum, body.commentNum));
         news_content.setText(Html.fromHtml(body.content, source -> {
-            if (lst.get(source) == null) {
-                new Thread(() -> {
-                    try {
-                        Drawable d = Drawable.createFromStream((InputStream) new URL(Http.baseUrl + source).getContent(), source);
-                        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-                        lst.put(source, d);
-
-                        runOnUiThread(() -> {
-                            getNew(body);//重新设置内容
-                        });
-                    } catch (IOException e) {
-                    }
-                }).start();
-                return null;
-            } else return lst.get(source);
+            final LevelListDrawable mDrawable = new LevelListDrawable();//这是一个Drawable集合类 根据level的不同可以显示不同的drawable对象
+            Glide.with(news_content)
+                    .asDrawable()
+                    .load(Http.baseUrl + source)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull @NotNull Drawable drawable, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
+                            mDrawable.addLevel(1, 1, drawable);
+                            mDrawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                            mDrawable.setLevel(1);
+                            //首先添加级别为1的位图
+                            //然后设置位图的上下左右边框
+                            //最后设置级别为1的位图显示到界面上
+                            news_content.invalidate();//重新绘制并设置字符串让他重新初始化
+                            news_content.setText(news_content.getText());
+                        }
+                    });
+            return mDrawable;//让界面先持有绘图对象 然后当我再Glide里面加载的时候他会自动显示出来
         }, null));
     }
 
     @Override
     public void getCommitList(List<GetNewsCommentList.RowsBean> rows) {
         adapter.setLst(rows);
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeInserted(0, rows.size());//告诉列表控件需要显示新的数据
     }
 
     @Override
@@ -125,6 +131,4 @@ public class NewsDetails extends BaseAct implements NewsDetailsView {
         comment_me.setText("");
         mPresenterImp.getComments(newsIds, this);
     }
-
-    LinkedHashMap<String, Drawable> lst = new LinkedHashMap<>();
 }

@@ -57,6 +57,7 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
         mLinearLayoutManager = new LinearLayoutManager(this.getContext());
         adapter = new NewsContainerAdapter();
         adapter.setListener(this);
+
         rv_container.setLayoutManager(mLinearLayoutManager);
         rv_container.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int mSuspensionHeight;
@@ -72,15 +73,12 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
             @Override
             public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.d(TAG, String.format("onScrolled: dx dy = %s %s", dx, dy));
-                View v = mLinearLayoutManager.findViewByPosition(0);//找到第0个 自定义布局的项目
-                if (v != null) {
-                    TabLayout view = v.findViewById(R.id.tablayout_news_category);
+                TabLayout view = (TabLayout) mLinearLayoutManager.findViewByPosition(1);//找到第1个自定义布局的项目
+                if (view != null) {
                     int sizeChild = view.getTop();
-                    int sizeParent = v.getTop();
-                    Log.d(TAG, String.format("onScrolled: %s %s sizeChild %s", sizeParent + sizeChild, sizeChild, mSuspensionHeight));
-                    if (sizeParent + sizeChild <= mSuspensionHeight) {// <= mSuspensionHeight
-                        int top = mSuspensionHeight - (sizeParent + sizeChild);
+                    Log.d(TAG, String.format("onScrolled:sizeChild = %s mSuspensionHeight = %s", sizeChild, mSuspensionHeight));
+                    if (sizeChild <= mSuspensionHeight) {// <= mSuspensionHeight
+                        int top = mSuspensionHeight - sizeChild;
                         if (top >= mSuspensionHeight)//如果滑动到了这个位置
                         {
                             //tablayout_news_category.setY(-top);
@@ -108,6 +106,8 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
         rv_container.setAdapter(adapter);
 
         mPresenterImp.getBannerNews(10, this);
+        mPresenterImp.getNewsCategory(this);
+        
     }
 
     @Override
@@ -119,7 +119,6 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
             tablayout_news_category.addTab(t);
         }
         adapter.setNewsCategory(new LinkedList<>(rows));
-        isLoadingCategory = false;
     }
 
     @Override
@@ -132,24 +131,9 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
         adapter.setLst(new LinkedList<>(rows));
     }
 
-    boolean isLoadingCategory = false;
-
-    @Override
-    public void GetNewsCategory() {
-        if (!isLoadingCategory) {
-            isLoadingCategory = true;
-            mPresenterImp.getNewsCategory(this);
-        }
-    }
-
     @Override
     public void LoadTargetNewsByType(int type) {
         mPresenterImp.getNewsByType("" + type, this);
-    }
-
-    @Override
-    public void GetBanners() {
-        mPresenterImp.getBannerNews(10, this);
     }
 
     @Override

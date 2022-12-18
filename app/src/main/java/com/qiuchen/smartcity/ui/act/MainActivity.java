@@ -68,7 +68,6 @@ public class MainActivity extends BaseAct implements BannerView {
                 LinearLayoutCompat linearLayout = viewHolder.itemView.findViewById(R.id.control_bar);
                 Button net = viewHolder.itemView.findViewById(R.id.net_config);
                 Button enter_home = viewHolder.itemView.findViewById(R.id.enter_home);
-                Glide.with(viewHolder.itemView).load(Http.baseUrl + rowsBean.advImg).into(im);
                 if (i == i1 - 1) {
                     linearLayout.setVisibility(View.VISIBLE);
                     net.setOnClickListener(view -> {
@@ -76,6 +75,8 @@ public class MainActivity extends BaseAct implements BannerView {
                     });
                     enter_home.setOnClickListener(v -> goHome());
                 } else linearLayout.setVisibility(View.INVISIBLE);
+                if (mDatas.size() == 1 && rowsBean.advImg == null) return;
+                Glide.with(viewHolder.itemView).load(Http.baseUrl + rowsBean.advImg).into(im);
             }
         };
         mSplashBanner.setAdapter(adapter);
