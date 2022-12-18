@@ -7,10 +7,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.bean.request.SubmitNews;
 import com.qiuchen.smartcity.bean.response.GetNewsCommentList;
@@ -48,7 +48,7 @@ public class NewsDetails extends BaseAct implements NewsDetailsView {
     NewsCommentAdapter adapter;
     Button publish_comment;
 
-    TextInputEditText comment_me;
+    AppCompatEditText comment_me;
 
     int newsIds = -1;
 
@@ -61,8 +61,8 @@ public class NewsDetails extends BaseAct implements NewsDetailsView {
 
         news_content = findViewById(R.id.news_content);
         news_comment = findViewById(R.id.news_comment);
-        comment_me = (TextInputEditText) findViewById(R.id.comment_me);
-        publish_comment = (Button) findViewById(R.id.publish_comment);
+        comment_me = findViewById(R.id.comment_me);
+        publish_comment = findViewById(R.id.publish_comment);
         news_comment.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new NewsCommentAdapter();

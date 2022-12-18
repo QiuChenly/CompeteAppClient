@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import com.bumptech.glide.Glide;
-import com.google.android.material.textfield.TextInputEditText;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.bean.response.BannerResponse;
 import com.qiuchen.smartcity.ui.adapter.ViewHolder;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseAct implements BannerView {
 
     void openDialog() {
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_netset, null, false);
-        TextInputEditText ip = v.findViewById(R.id.net_ip), port = v.findViewById(R.id.net_port);
+        AppCompatEditText ip = v.findViewById(R.id.net_ip), port = v.findViewById(R.id.net_port);
         ip.setText(spHelper.getIP(false));
         port.setText(spHelper.getIP(true));
         dialog = new AlertDialog.Builder(this).setTitle("网络设置").setView(v).setPositiveButton("确定", (dialog, which) -> {

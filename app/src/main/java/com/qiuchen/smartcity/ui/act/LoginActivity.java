@@ -3,7 +3,7 @@ package com.qiuchen.smartcity.ui.act;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import com.google.android.material.textfield.TextInputEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import com.qiuchen.smartcity.MyApp;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.ui.base.BaseAct;
@@ -21,7 +21,7 @@ public class LoginActivity extends BaseAct implements LoginView {
     }
 
     Button login, reg;
-    TextInputEditText user, pass;
+    AppCompatEditText user, pass;
 
     @Override
     protected void init(Bundle savedInstanceState) {

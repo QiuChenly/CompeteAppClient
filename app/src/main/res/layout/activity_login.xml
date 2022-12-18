@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="match_parent"
                     android:id="@+id/et_user_account"
                     android:inputType="text"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="match_parent"
                     android:id="@+id/et_user_pass"
                     android:inputType="textPassword"

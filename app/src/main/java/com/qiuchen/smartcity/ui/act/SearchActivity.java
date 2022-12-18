@@ -7,10 +7,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.qiuchen.smartcity.R;
 import com.qiuchen.smartcity.bean.response.GetNewsResponse;
 import com.qiuchen.smartcity.ui.adapter.SearchNewsAdapter;
@@ -27,7 +27,7 @@ public class SearchActivity extends BaseAct implements SearchView {
         return uiParams;
     }
 
-    TextInputEditText search_content;
+    AppCompatEditText search_content;
     Toolbar search_toolbar;
     TextView search_state;
     RecyclerView search_list;

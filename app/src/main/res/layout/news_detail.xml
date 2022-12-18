@@ -63,13 +63,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.appcompat.widget.AppCompatEditText
                     android:hint="请写下你的高见"
                     android:id="@+id/comment_me"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-            </com.google.android.material.textfield.TextInputEditText>
+                    android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

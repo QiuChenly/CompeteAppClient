@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.appcompat.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:hint="请输入IP主机地址"
                 android:id="@+id/net_ip"
@@ -24,7 +24,7 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/net_port"
                 android:layout_width="match_parent"
                 android:hint="请输入端口号"
