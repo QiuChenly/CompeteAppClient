@@ -17,5 +17,6 @@
     <style name="Theme.WhiteToolbar" parent="Theme.SmartCity">
         <!--    ToolBar 默认颜色    -->
         <item name="colorControlNormal">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
     </style>
 </resources>

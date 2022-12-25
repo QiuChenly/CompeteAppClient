@@ -150,4 +150,9 @@ public class NewsFragment extends BaseFragment implements NewsView, NewsContaine
         if (this.getContext() != null)
             MyApp.gotoNewsDetail(this.getContext(), id);
     }
+
+    @Override
+    public void functionsClick(String name, int pos) {
+        //pass 无需实现
+    }
 }
