@@ -5,65 +5,154 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.cardview.widget.CardView
-            app:cardElevation="8dp"
-            app:cardCornerRadius="10dp"
-            android:layout_margin="10dp"
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:padding="10dp"
                 android:layout_height="wrap_content">
 
-            <ImageView
-                    android:scaleType="centerCrop"
-                    android:id="@+id/user_logo"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"/>
+            <androidx.cardview.widget.CardView
+                    android:layout_margin="10dp"
+                    app:cardElevation="8dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content">
 
+                    <ImageView
+                            android:scaleType="centerCrop"
+                            android:id="@+id/user_logo"
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            android:layout_marginStart="10dp"
+                            >
+
+                        <TextView
+                                android:text="nickname"
+                                android:textSize="20sp"
+                                android:textColor="@color/black"
+                                android:id="@+id/user_nickName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        <TextView
+                                android:textSize="11sp"
+                                android:text="余额: 100 | 积分: 100"
+                                android:id="@+id/user_balance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        <TextView
+                                android:text="12312"
+                                android:textSize="11sp"
+                                android:id="@+id/user_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        <TextView
+                                android:textSize="11sp"
+                                android:text="12312@qq.com"
+                                android:id="@+id/user_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                     android:layout_marginStart="10dp"
-                    >
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="8dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp">
 
                 <TextView
-                        android:text="nickname"
-                        android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:id="@+id/user_nickName"
-                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="我的订单"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                <TextView
-                        android:textSize="11sp"
-                        android:text="余额: 100 | 积分: 100"
-                        android:id="@+id/user_balance"
+                <ImageView
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    app:cardElevation="8dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp">
 
                 <TextView
-                        android:text="12312"
-                        android:textSize="11sp"
-                        android:id="@+id/user_phone"
-                        android:layout_width="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:text="修改信息"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                <TextView
-                        android:textSize="11sp"
-                        android:text="12312@qq.com"
-                        android:id="@+id/user_email"
+                <ImageView
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
                         android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    app:cardElevation="8dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp">
+
+                <TextView
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:text="其他功能"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ImageView
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+
+            </androidx.cardview.widget.CardView>
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
